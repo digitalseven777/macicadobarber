@@ -1,0 +1,22 @@
+# Node
+node_modules/
+
+# Env
+.env
+backend/.env
+
+# SQLite
+backend/database.sqlite
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+

@@ -1,0 +1,12 @@
+BarberAgenda - Como instalar
+
+1) Frontend
+- Abra a pasta frontend
+- Rode: npx http-server -p 8000
+- Acesse: http://localhost:8000
+
+2) Admin
+- Abra: http://localhost:8000/admin.html
+- Usuario: admin
+- Senha: danmacicado
+
