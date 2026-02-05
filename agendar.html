@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Agende seu horário na MaciçadoBarber">
+    <title>Agendar Horário - MaciçadoBarber</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="brand">
+                <img src="assets/logo.png" alt="MaciçadoBarber">
+                <div>
+                    <div class="brand-name">MaciçadoBarber</div>
+                    <div class="brand-tag">Estilo urbano • Barba & corte</div>
+                </div>
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="agendar.html">Agendar</a></li>
+                    <li><a href="admin.html">Painel Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- FORMULÁRIO DE AGENDAMENTO -->
+    <main class="container">
+        <h2 class="section-title">Agendar Horário</h2>
+        <p class="section-lead">Preencha seus dados e escolha o horário disponível.</p>
+
+        <!-- Mensagem de feedback (oculta por padrão) -->
+        <div id="mensagem" style="display: none;"></div>
+
+        <div class="form-container">
+            <form id="formAgendamento">
+                
+                <!-- Nome do cliente -->
+                <div class="form-group">
+                    <label for="nome">Nome Completo *</label>
+                    <input 
+                        type="text" 
+                        id="nome" 
+                        name="nome" 
+                        required
+                        placeholder="Digite seu nome completo"
+                    >
+                </div>
+
+                <!-- WhatsApp -->
+                <div class="form-group">
+                    <label for="whatsapp">WhatsApp *</label>
+                    <input 
+                        type="tel" 
+                        id="whatsapp" 
+                        name="whatsapp" 
+                        required
+                        placeholder="(11) 98765-4321"
+                        maxlength="15"
+                    >
+                </div>
+
+                <!-- Serviço -->
+                <div class="form-group">
+                    <label for="servico">Serviço *</label>
+                    <select id="servico" name="servico" required>
+                        <option value="">Selecione um serviço</option>
+                        <option value="Corte Tradicional">Corte Tradicional - R$ 60,00</option>
+                        <option value="Barba Completa">Barba Completa - R$ 45,00</option>
+                        <option value="Corte + Barba">Corte + Barba - R$ 95,00</option>
+                        <option value="Degradê Premium">Degradê Premium - R$ 75,00</option>
+                        <option value="Pigmentação de Barba">Pigmentação de Barba - R$ 55,00</option>
+                        <option value="Tratamento Capilar">Tratamento Capilar - R$ 50,00</option>
+                    </select>
+                </div>
+
+                <!-- Data -->
+                <div class="form-group">
+                    <label for="data">Data *</label>
+                    <input 
+                        type="date" 
+                        id="data" 
+                        name="data" 
+                        required
+                    >
+                </div>
+
+                <!-- Horários disponíveis -->
+                <div class="form-group">
+                    <label>Horário Disponível *</label>
+                    <div class="horarios-grid" id="horariosGrid">
+                        <!-- Os horários serão carregados aqui dinamicamente -->
+                    </div>
+                    <input type="hidden" id="horario" name="horario" required>
+                </div>
+
+                <!-- Privacidade -->
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="aceitePrivacidade" required>
+                        Li e concordo com a <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>
+                    </label>
+                </div>
+
+                <!-- Botão de envio -->
+                <button type="submit" class="btn btn-primary" id="btnSubmit">
+                    Confirmar Agendamento
+                </button>
+
+            </form>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 MaciçadoBarber. Todos os direitos reservados. <a href="privacidade.html">Política de Privacidade</a></p>
+    </footer>
+
+    <script type="module" src="js/agendamento.js"></script>
+
+</body>
+</html>

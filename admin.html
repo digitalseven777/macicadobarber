@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Painel Administrativo - MaciçadoBarber">
+    <title>Painel Admin - MaciçadoBarber</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="brand">
+                <img src="assets/logo.png" alt="MaciçadoBarber">
+                <div>
+                    <div class="brand-name">MaciçadoBarber</div>
+                    <div class="brand-tag">Estilo urbano • Barba & corte</div>
+                </div>
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="agendar.html">Agendar</a></li>
+                    <li><a href="admin.html">Painel Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- LOGIN ADMIN -->
+    <main class="container">
+        <div id="loginPanel" class="form-container">
+            <h2 class="section-title">Acesso Admin</h2>
+            <div id="loginMensagem" style="display: none;"></div>
+            <form id="formLogin">
+                <div class="form-group">
+                    <label for="usuarioAdmin">Usuário *</label>
+                    <input
+                        type="text"
+                        id="usuarioAdmin"
+                        name="usuarioAdmin"
+                        required
+                        placeholder="Digite o usuário"
+                        value="admin"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="senhaAdmin">Senha *</label>
+                    <input
+                        type="password"
+                        id="senhaAdmin"
+                        name="senhaAdmin"
+                        required
+                        placeholder="Digite a senha do admin"
+                    >
+                </div>
+                <button type="submit" class="btn btn-primary">Entrar</button>
+            </form>
+        </div>
+
+        <!-- PAINEL ADMINISTRATIVO -->
+        <div id="adminPanel" style="display: none;">
+            <h2 class="section-title">Painel Administrativo</h2>
+
+            <!-- Informações do painel -->
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <p style="font-size: 1.1rem; color: var(--text-light);">
+                    Total de agendamentos: <strong id="totalAgendamentos">0</strong>
+                </p>
+                <p style="font-size: 1rem; color: var(--text-light); margin-top: 0.5rem;">
+                    Ativos: <strong id="totalAtivos">0</strong> • Cancelados: <strong id="totalCancelados">0</strong>
+                </p>
+                <button onclick="carregarAgendamentos()" class="btn btn-secondary" style="margin-top: 1rem;">
+                    🔄 Atualizar Lista
+                </button>
+            </div>
+
+            <!-- Tabela de agendamentos -->
+            <div class="table-container">
+                <table class="agendamentos-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Data</th>
+                            <th>Horário</th>
+                            <th>Cliente</th>
+                            <th>WhatsApp</th>
+                            <th>Serviço</th>
+                            <th>Agendado em</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaBody">
+                        <!-- Os agendamentos serão inseridos aqui via JavaScript -->
+                        <tr>
+                            <td colspan="9" style="text-align: center; padding: 2rem;">
+                                <span class="loading"></span> Carregando agendamentos...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mensagem quando não houver agendamentos -->
+            <div id="mensagemVazio" style="display: none; text-align: center; padding: 3rem;">
+                <p style="font-size: 1.2rem; color: var(--text-light);">
+                    📭 Nenhum agendamento encontrado
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL EDITAR AGENDAMENTO -->
+    <div id="editModal" class="modal-overlay" style="display: none;">
+        <div class="modal">
+            <h3 style="margin-bottom: 1rem;">Editar Agendamento</h3>
+            <div id="editMensagem" style="display: none;"></div>
+            <form id="formEditar">
+                <input type="hidden" id="editId">
+                <div class="form-group">
+                    <label for="editNome">Nome</label>
+                    <input type="text" id="editNome" required>
+                </div>
+                <div class="form-group">
+                    <label for="editWhatsApp">WhatsApp</label>
+                    <input type="tel" id="editWhatsApp" required>
+                </div>
+                <div class="form-group">
+                    <label for="editServico">Serviço</label>
+                    <input type="text" id="editServico" required>
+                </div>
+                <div class="form-group">
+                    <label for="editData">Data</label>
+                    <input type="date" id="editData" required>
+                </div>
+                <div class="form-group">
+                    <label for="editHorario">Horário</label>
+                    <input type="time" id="editHorario" required>
+                </div>
+                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" id="btnCancelarEdicao">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 MaciçadoBarber. Todos os direitos reservados. <a href="privacidade.html">Política de Privacidade</a></p>
+    </footer>
+
+    <script type="module" src="js/admin.js"></script>
+
+</body>
+</html>
