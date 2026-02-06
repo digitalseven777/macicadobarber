@@ -1,7 +1,7 @@
 BarberAgenda - Como instalar
 
 1) Frontend
-- Abra a pasta frontend
+- Abra a pasta do projeto
 - Rode: npx http-server -p 8000
 - Acesse: http://localhost:8000
 

@@ -13,24 +13,23 @@ Frontend
 ## Estrutura do Projeto
 
 barberagenda/
-|-- frontend/
-|   |-- index.html
-|   |-- agendar.html
-|   |-- admin.html
-|   |-- privacidade.html
-|   |-- css/style.css
-|   |-- js/agendamento.js
-|   |-- js/admin.js
-|   |-- js/firebase.js
+|-- index.html
+|-- agendar.html
+|-- admin.html
+|-- privacidade.html
+|-- css/style.css
+|-- js/agendamento.js
+|-- js/admin.js
+|-- js/firebase.js
 |
 |-- README.md
 
 ## Instalação e Configuração (local)
 
-1. Abra o frontend
+1. Abra o projeto
    Opção A: Live Server no VSCode
    Opção B: Servidor simples
-   cd frontend
+   cd .
    npx http-server -p 8000
 
 Acesse: http://localhost:8000
