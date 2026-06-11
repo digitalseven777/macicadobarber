@@ -202,6 +202,11 @@ a {
   color: #fff;
 }
 
+.btn-warning {
+  background: #f5b700;
+  color: #1a1a1a;
+}
+
 .btn-small {
   padding: 0.45rem 0.9rem;
   font-size: 0.8rem;
@@ -398,6 +403,11 @@ a {
 .status-finalizado {
   background: rgba(0, 229, 255, 0.2);
   color: var(--accent-2);
+}
+
+.status-remarcado {
+  background: rgba(245, 183, 0, 0.2);
+  color: #f5b700;
 }
 
 .acoes-group {

@@ -373,19 +373,22 @@ function atualizarDashboard() {
 
     const total = agendamentos.length;
     const finalizados = agendamentos.filter(a => a.status === 'finalizado').length;
+    const remarcados = agendamentos.filter(a => a.status === 'remarcado').length;
     const cancelados = agendamentos.filter(a => a.status === 'cancelado').length;
-    const ativos = total - finalizados - cancelados;
+    const ativos = total - finalizados - remarcados - cancelados;
 
     const dashTotal = document.getElementById('dashTotal');
     const dashFinalizados = document.getElementById('dashFinalizados');
+    const dashRemarcados = document.getElementById('dashRemarcados');
     const dashCancelados = document.getElementById('dashCancelados');
 
     if (dashTotal) dashTotal.textContent = total;
     if (dashFinalizados) dashFinalizados.textContent = finalizados;
+    if (dashRemarcados) dashRemarcados.textContent = remarcados;
     if (dashCancelados) dashCancelados.textContent = cancelados;
 
-    const statusData = [ativos, finalizados, cancelados];
-    const statusLabels = ['Ativos', 'Finalizados', 'Cancelados'];
+    const statusData = [ativos, finalizados, remarcados, cancelados];
+    const statusLabels = ['Ativos', 'Finalizados', 'Remarcados', 'Cancelados'];
 
     if (chartStatus) chartStatus.destroy();
     const canvasStatus = document.getElementById('chartStatus');
@@ -398,7 +401,7 @@ function atualizarDashboard() {
             labels: statusLabels,
             datasets: [{
                 data: statusData,
-                backgroundColor: ['#f5b700', '#00e5ff', '#ff3b3b'],
+                backgroundColor: ['#f5b700', '#00e5ff', '#f5b700', '#ff3b3b'],
                 borderWidth: 0
             }]
         },
@@ -479,6 +482,7 @@ async function carregarAgendamentos() {
     const totalElement = document.getElementById('totalAgendamentos');
     const totalAtivos = document.getElementById('totalAtivos');
     const totalFinalizados = document.getElementById('totalFinalizados');
+    const totalRemarcados = document.getElementById('totalRemarcados');
     const totalCancelados = document.getElementById('totalCancelados');
     const token = getToken();
 
@@ -509,8 +513,9 @@ async function carregarAgendamentos() {
         // Atualiza total
         totalElement.textContent = agendamentos.length;
         totalFinalizados.textContent = agendamentos.filter(a => a.status === 'finalizado').length;
+        totalRemarcados.textContent = agendamentos.filter(a => a.status === 'remarcado').length;
         totalCancelados.textContent = agendamentos.filter(a => a.status === 'cancelado').length;
-        totalAtivos.textContent = agendamentos.filter(a => a.status !== 'cancelado' && a.status !== 'finalizado').length;
+        totalAtivos.textContent = agendamentos.filter(a => a.status !== 'cancelado' && a.status !== 'finalizado' && a.status !== 'remarcado').length;
 
         agendamentosCache = agendamentos;
         atualizarDashboard();
@@ -616,12 +621,16 @@ function renderizarAgendamentos(agendamentos) {
             if (agendamento.status === 'cancelado') {
                 status = 'cancelado';
                 statusLabel = 'Cancelado';
+            } else if (agendamento.status === 'remarcado') {
+                status = 'remarcado';
+                statusLabel = 'Remarcado';
             } else if (agendamento.status === 'finalizado') {
                 status = 'finalizado';
                 statusLabel = 'Finalizado';
             }
 
             const isCancelado = status === 'cancelado';
+            const isRemarcado = status === 'remarcado';
             const isFinalizado = status === 'finalizado';
 
             const item = document.createElement('div');
@@ -651,10 +660,13 @@ function renderizarAgendamentos(agendamentos) {
                         <button class="btn btn-secondary btn-small" data-acao="editar" data-id="${agendamento.id}">
                             Editar
                         </button>
-                        <button class="btn btn-primary btn-small" data-acao="finalizar" data-id="${agendamento.id}" ${isCancelado || isFinalizado ? 'disabled' : ''}>
+                        <button class="btn btn-primary btn-small" data-acao="finalizar" data-id="${agendamento.id}" ${isRemarcado || isCancelado || isFinalizado ? 'disabled' : ''}>
                             Finalizar
                         </button>
-                        <button class="btn btn-danger btn-small" data-acao="cancelar" data-id="${agendamento.id}" ${isCancelado ? 'disabled' : ''}>
+                        <button class="btn btn-warning btn-small" data-acao="remarcar" data-id="${agendamento.id}" ${isRemarcado || isCancelado || isFinalizado ? 'disabled' : ''}>
+                            Remarcar
+                        </button>
+                        <button class="btn btn-danger btn-small" data-acao="cancelar" data-id="${agendamento.id}" ${isCancelado || isRemarcado ? 'disabled' : ''}>
                             Cancelar
                         </button>
                     </div>
@@ -669,6 +681,9 @@ function renderizarAgendamentos(agendamentos) {
                     }
                     if (acao === 'cancelar') {
                         cancelarAgendamento(agendamento.id);
+                    }
+                    if (acao === 'remarcar') {
+                        remarcarAgendamento(agendamento.id);
                     }
                     if (acao === 'finalizar') {
                         finalizarAgendamento(agendamento.id);
@@ -755,6 +770,22 @@ async function cancelarAgendamento(id) {
         carregarAgendamentos();
     } catch (erro) {
         alert('Erro ao cancelar. Tente novamente.');
+    }
+}
+
+async function remarcarAgendamento(id) {
+    const confirmar = window.confirm('Remarcar este agendamento? O horário permanecerá ocupado mas será marcado como remarcado.');
+    if (!confirmar) return;
+
+    try {
+        const ref = doc(db, 'agendamentos', id);
+        await updateDoc(ref, {
+            status: 'remarcado',
+            updated_at: serverTimestamp()
+        });
+        carregarAgendamentos();
+    } catch (erro) {
+        alert('Erro ao remarcar. Tente novamente.');
     }
 }
 

@@ -274,14 +274,21 @@ async function enviarAgendamento(e) {
     btnSubmit.innerHTML = '<span class="loading"></span> Agendando...';
     
     try {
-        // Verifica se já existe agendamento no mesmo horário/data
+        // Verifica se já existe agendamento ATIVO ou FINALIZADO no mesmo horário/data
         const q = query(
             collection(db, 'agendamentos'),
             where('data', '==', dados.data),
             where('horario', '==', dados.horario)
         );
         const existe = await getDocs(q);
-        if (!existe.empty) {
+        
+        // Filtra apenas agendamentos ativos ou finalizados (ignora cancelados e remarcados)
+        const horarioOcupado = !existe.empty && existe.docs.some(doc => {
+            const status = doc.data().status;
+            return status === 'ativo' || status === 'finalizado';
+        });
+        
+        if (horarioOcupado) {
             exibirMensagem('Este horário já está ocupado. Por favor, escolha outro.', 'erro');
             return;
         }
