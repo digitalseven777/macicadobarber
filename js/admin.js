@@ -548,12 +548,24 @@ function renderizarAgendamentos(agendamentos) {
     const lista = document.getElementById('agendamentosLista');
     lista.innerHTML = '';
     
-    // Ordena por data e horário (mais recentes primeiro)
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+
     agendamentos.sort((a, b) => {
-        if (a.data !== b.data) {
-            return new Date(b.data) - new Date(a.data);
+        const dataA = new Date(`${a.data}T00:00:00`);
+        const dataB = new Date(`${b.data}T00:00:00`);
+        const proximidadeA = dataA - hoje;
+        const proximidadeB = dataB - hoje;
+
+        if ((proximidadeA >= 0) !== (proximidadeB >= 0)) {
+            return proximidadeA >= 0 ? -1 : 1;
         }
-        return b.horario.localeCompare(a.horario);
+
+        if (dataA.getTime() !== dataB.getTime()) {
+            return dataA - dataB;
+        }
+
+        return (a.horario || '').localeCompare(b.horario || '');
     });
     
     const grupos = new Map();
@@ -563,7 +575,22 @@ function renderizarAgendamentos(agendamentos) {
         grupos.get(data).push(agendamento);
     });
 
-    const datasOrdenadas = Array.from(grupos.keys()).sort((a, b) => new Date(b) - new Date(a));
+    const datasOrdenadas = Array.from(grupos.keys()).sort((a, b) => {
+        const dataA = new Date(`${a}T00:00:00`);
+        const dataB = new Date(`${b}T00:00:00`);
+        const proximidadeA = dataA - hoje;
+        const proximidadeB = dataB - hoje;
+
+        if ((proximidadeA >= 0) !== (proximidadeB >= 0)) {
+            return proximidadeA >= 0 ? -1 : 1;
+        }
+
+        if (dataA.getTime() !== dataB.getTime()) {
+            return dataA - dataB;
+        }
+
+        return 0;
+    });
 
     datasOrdenadas.forEach(data => {
         const itens = grupos.get(data);
@@ -763,9 +790,24 @@ function formatarData(data) {
 function formatarDataComDia(data) {
     if (!data) return 'Sem data';
     if (!String(data).includes('-')) return String(data);
+
     const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-    const diaSemana = new Date(`${data}T00:00:00`).getDay();
+    const dataObj = new Date(`${data}T00:00:00`);
+    const diaSemana = dataObj.getDay();
     const nomeDia = dias[diaSemana] || '';
+
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+    const amanha = new Date(hoje);
+    amanha.setDate(hoje.getDate() + 1);
+
+    if (dataObj.getTime() === hoje.getTime()) {
+        return `Hoje • ${formatarData(data)}`;
+    }
+    if (dataObj.getTime() === amanha.getTime()) {
+        return `Amanhã • ${formatarData(data)}`;
+    }
+
     return `${formatarData(data)} • ${nomeDia}`;
 }
 

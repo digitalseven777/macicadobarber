@@ -23,7 +23,6 @@
                 <ul class="nav-links">
                     <li><a href="index.html">Início</a></li>
                     <li><a href="agendar.html">Agendar</a></li>
-                    <li><a href="admin.html">Painel Admin</a></li>
                 </ul>
             </nav>
         </div>
@@ -109,6 +108,14 @@
                             <label for="intervaloMinutos">Intervalo (minutos)</label>
                             <input type="number" id="intervaloMinutos" min="5" step="5" required>
                         </div>
+                        <div class="form-group">
+                            <label for="dataFechada">Fechar data específica</label>
+                            <div class="form-row">
+                                <input type="date" id="dataFechada">
+                                <button type="button" class="btn btn-secondary" id="btnAdicionarDataFechada">Adicionar</button>
+                            </div>
+                        </div>
+                        <div class="admin-list" id="listaDatasFechadas"></div>
                         <button type="submit" class="btn btn-primary">Salvar funcionamento</button>
                         <div id="msgFuncionamento" style="display: none;"></div>
                     </form>
