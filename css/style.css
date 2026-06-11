@@ -203,8 +203,8 @@ a {
 }
 
 .btn-warning {
-  background: #f5b700;
-  color: #1a1a1a;
+  background: #3b82f6;
+  color: #fff;
 }
 
 .btn-small {
@@ -406,8 +406,8 @@ a {
 }
 
 .status-remarcado {
-  background: rgba(245, 183, 0, 0.2);
-  color: #f5b700;
+  background: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
 }
 
 .acoes-group {

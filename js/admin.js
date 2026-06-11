@@ -401,7 +401,7 @@ function atualizarDashboard() {
             labels: statusLabels,
             datasets: [{
                 data: statusData,
-                backgroundColor: ['#f5b700', '#00e5ff', '#f5b700', '#ff3b3b'],
+                backgroundColor: ['#f5b700', '#00e5ff', '#3b82f6', '#ff3b3b'],
                 borderWidth: 0
             }]
         },
